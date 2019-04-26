@@ -1,4 +1,21 @@
 var base_url = "https://readerapi.codepolitan.com/";
+var api_token = '0687f71291614271b38aea977ae6c578'
+var kode_liga = 2021 //id liga inggris
+var base_url = "https://api.football-data.org/v2/";
+var endpoint_tim = `${base_url}teams/`
+var endpoint_pemain = `${base_url}players/`
+var endpoint_klasemen = `${base_url}competitions/${kode_liga}/standings?standingType=TOTAL`
+var endpoint_pertandingan_upcoming = `${base_url}competitions/${kode_liga}/matches?status=SCHEDULED`
+var endpoint_pertandingan_detail = `${base_url}matches/`
+
+var fetchApi = url => {
+  return fetch(url, {
+    headers: {
+      'X-Auth-Token': api_token
+    }
+  });
+}
+
 // Blok kode yang akan di panggil jika fetch berhasil
 function status(response) {
   if (response.status !== 200) {
@@ -19,6 +36,29 @@ function error(error) {
   // Parameter error berasal dari Promise.reject()
   console.log("Error : " + error);
 }
+
+function getKlasemenLiga() {
+  if ('caches' in window) {
+    caches.match(endpoint_klasemen).then(function (response) {
+      if (response) {
+        response.json().then(function (data) {
+          resultKlasemenJSON(data);
+        });
+      }
+    });
+  }
+
+  fetchApi(endpoint_klasemen)
+    .then(status)
+    .then(json)
+    .then(function (data) {
+      // Objek/array JavaScript dari response.json() masuk lewat data.
+      // Menyusun komponen card artikel secara dinamis
+      resultKlasemenJSON(data)
+    })
+    .catch(error);
+}
+
 // Blok kode untuk melakukan request data json
 function getArticles() {
 
