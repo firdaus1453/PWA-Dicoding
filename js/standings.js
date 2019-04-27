@@ -37,9 +37,6 @@ function resultKlasemenJSON(data) {
   
       <div class="card">
       <div class="card-content">
-      <h5 class="header">Last Updated: ${data.competition.lastUpdated}</h5> 
-      
-      
       <table class="responsive-table striped " >
       <thead>
         <tr>
@@ -64,6 +61,5 @@ function resultKlasemenJSON(data) {
 
   });
 
-  // Sisipkan komponen card ke dalam elemen dengan id tabelKlasemen
-  document.getElementById("tabelKlasemen").innerHTML = tabelKlasemenHtml;
+  document.getElementById("nameTeam").innerHTML = tabelKlasemenHtml;
 }
